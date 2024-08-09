@@ -40,6 +40,7 @@ services:
     networks:
       - internal
     restart: unless-stopped
+    entrypoint: ["/usr/bin/dendrite", "-really-enable-open-registration"]
 
 networks:
   internal:

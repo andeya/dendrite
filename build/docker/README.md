@@ -28,8 +28,8 @@ runtime config should come from. The mounted folder must contain:
 
 - `dendrite.yaml` configuration file (based on one of the sample config files)
 - `matrix_key.pem` server key, as generated using `cmd/generate-keys`
-- `server.crt` certificate file
-- `server.key` private key file for the above certificate
+- `ssl.crt` certificate file
+- `ssl.key` private key file for the above certificate
 
 To generate keys:
 
@@ -39,8 +39,8 @@ docker run --rm --entrypoint="" \
   matrixdotorg/dendrite-monolith:latest \
   /usr/bin/generate-keys \
   -private-key /mnt/matrix_key.pem \
-  -tls-cert /mnt/server.crt \
-  -tls-key /mnt/server.key
+  -tls-cert /mnt/ssl.crt \
+  -tls-key /mnt/ssl.key
 ```
 
 The key files will now exist in your current working directory, and can be mounted into place.
@@ -53,6 +53,13 @@ Then start the deployment:
 
 ```
 docker-compose -f docker-compose.yml up
+```
+
+## Create Admin Account
+
+```
+docker exec -it docker-monolith-1 /usr/bin/create-account -config /etc/dendrite/dendrite.yaml -username {$username} -admin
+
 ```
 
 ## Building the images
